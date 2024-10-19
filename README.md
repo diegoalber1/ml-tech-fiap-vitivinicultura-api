@@ -8,6 +8,7 @@ Bem-vindo à **Vitivinicultura API**. Esta API fornece acesso a dados relacionad
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação](#instalação)
 - [Configuração](#configuração)
+- [Documentação da API](#documentação-da-API)
 - [Uso](#uso)
 - [Autenticação](#autenticação)
 - [Endpoints](#endpoints)
@@ -90,6 +91,12 @@ ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 DEBUG=True
 ```
+
+
+## **Documentação da API**
+
+A documentação da API está disponível no formato OpenAPI. Você pode visualizar o arquivo JSON [aqui](./docs/openapi.json).
+
 
 ## **Uso**
 
