@@ -48,19 +48,19 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados 
 
 ### **Passo a passo para Instalação Local**
 1. Clone o repositório:
-   ```bash
+```bash
    git clone https://github.com/diegoalber1/vitivinicultura-api.git
    cd vitivinicultura-api
-   ```
+```
 2. Crie e ative um ambiente virtual:
-   ```bash
+```bash
    python3 -m venv venv
    source venv/bin/activate
-   ```   
+```   
 3. Instale as dependências:
-   ```bash
+```bash
    pip install -r requirements.txt
-   ```   
+```   
 4. Configure as variáveis de ambiente:
 ```bash
    cp .env.example .env
@@ -97,19 +97,19 @@ DEBUG=True
 A API utiliza **JWT (JSON Web Tokens)** para autenticação. Para acessar os endpoints protegidos, você precisa obter um token de acesso.
 
 1. **Obter o Token de Acesso (Login)**:
-   ```bash
+```bash
    curl -X 'POST' \
    'http://localhost:8000/token' \
    -H 'Content-Type: application/x-www-form-urlencoded' \
    -d 'username=seu_usuario&password=sua_senha'
-   ```
+```
 
 2. **Acessar o Endpoint Protegido**:
 
 ```bash
-curl -X 'GET' \
-  'http://localhost:8000/users/me' \
-  -H 'Authorization: Bearer seu_token_jwt_aqui'
+   curl -X 'GET' \
+   'http://localhost:8000/users/me' \
+   -H 'Authorization: Bearer seu_token_jwt_aqui'
 ```
 Substitua seu_token_jwt_aqui pelo token JWT que você obteve no passo anterior.
 
@@ -136,15 +136,15 @@ GET /dados/exportacao: Retorna dados de exportação de vitivinicultura.
 Para garantir que tudo está funcionando corretamente, você pode executar os testes automatizados:
 
 1. **Instale as dependências de teste:**:
-   ```bash
+```bash
    pip install -r requirements-test.txt
-   ```
+```
 
 2. **Execute os testes:**:
 
-   ```bash
-      pytest
-   ```
+```bash
+   pytest
+```
 
 ## **Deploy**
 
@@ -152,9 +152,9 @@ Para garantir que tudo está funcionando corretamente, você pode executar os te
 1. **Crie uma conta no Heroku (se ainda não tiver) e instale o Heroku CLI.**:
 
 2. **Faça login no Heroku:**:
-   ```bash
+```bash
    heroku login
-   ```
+```
 3. **Crie um novo app no Heroku:**:
 
 ```bash
@@ -191,9 +191,9 @@ O Heroku oferece métricas integradas para monitorar o desempenho da aplicação
 
 Para visualizar os logs da aplicação, utilize o seguinte comando:
 
-   ```bash
+```bash
    heroku logs --tail
-   ```
+```
 
 ## Arquitetura
 ### Diagrama de Arquitetura
