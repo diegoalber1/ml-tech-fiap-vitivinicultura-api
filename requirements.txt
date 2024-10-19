@@ -1,0 +1,21 @@
+fastapi==0.95.0
+uvicorn==0.22.0
+sqlalchemy==1.4.46
+pydantic==1.10.2
+requests==2.28.1
+beautifulsoup4==4.11.1
+PyJWT==2.4.0
+python-multipart==0.0.5
+passlib[bcrypt]==1.7.4
+pytest
+requests-mock
+
+# fastapi==0.95.0: Framework para construir APIs rápidas e eficientes.
+# uvicorn==0.22.0: Servidor ASGI para rodar a aplicação FastAPI.
+# sqlalchemy==1.4.46: ORM para interagir com o banco de dados.
+# pydantic==1.10.2: Utilizado para validação de dados no FastAPI.
+# requests==2.28.1: Biblioteca para fazer requisições HTTP (usada para scraping).
+# beautifulsoup4==4.11.1: Biblioteca para fazer o parsing de HTML (usada para scraping).
+# PyJWT==2.4.0: Biblioteca para gerar e validar tokens JWT (usada para autenticação).
+# python-multipart==0.0.5: Necessário para lidar com uploads de arquivos no FastAPI.
+# passlib[bcrypt]==1.7.4: Utilizado para hashing de senhas de forma segura.
