@@ -1,0 +1,340 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Vitivinicultura API",
+    "description": "API para consulta de dados de vitivinicultura da Embrapa",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/producao": {
+      "get": {
+        "summary": "Producao",
+        "operationId": "producao_producao_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Year",
+              "maximum": 2024.0,
+              "minimum": 1970.0,
+              "type": "integer"
+            },
+            "name": "year",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/processamento": {
+      "get": {
+        "summary": "Processamento",
+        "operationId": "processamento_processamento_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Year",
+              "maximum": 2024.0,
+              "minimum": 1970.0,
+              "type": "integer"
+            },
+            "name": "year",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/comercializacao": {
+      "get": {
+        "summary": "Comercializacao",
+        "operationId": "comercializacao_comercializacao_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Year",
+              "maximum": 2024.0,
+              "minimum": 1970.0,
+              "type": "integer"
+            },
+            "name": "year",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/importacao": {
+      "get": {
+        "summary": "Importacao",
+        "operationId": "importacao_importacao_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Year",
+              "maximum": 2024.0,
+              "minimum": 1970.0,
+              "type": "integer"
+            },
+            "name": "year",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/exportacao": {
+      "get": {
+        "summary": "Exportacao",
+        "operationId": "exportacao_exportacao_get",
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "title": "Year",
+              "maximum": 2024.0,
+              "minimum": 1970.0,
+              "type": "integer"
+            },
+            "name": "year",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/csv/producao": {
+      "get": {
+        "summary": "Producao Csv",
+        "operationId": "producao_csv_csv_producao_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/csv/processamento": {
+      "get": {
+        "summary": "Processamento Csv",
+        "operationId": "processamento_csv_csv_processamento_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/csv/comercializacao": {
+      "get": {
+        "summary": "Comercializacao Csv",
+        "operationId": "comercializacao_csv_csv_comercializacao_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/csv/importacao": {
+      "get": {
+        "summary": "Importacao Csv",
+        "operationId": "importacao_csv_csv_importacao_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/csv/exportacao": {
+      "get": {
+        "summary": "Exportacao Csv",
+        "operationId": "exportacao_csv_csv_exportacao_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    },
+    "/token": {
+      "post": {
+        "summary": "Login",
+        "description": "Endpoint para login e geração de token",
+        "operationId": "login_token_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": { "$ref": "#/components/schemas/Body_login_token_post" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/HTTPValidationError" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/me": {
+      "get": {
+        "summary": "Read Users Me",
+        "description": "Endpoint protegido que requer um token JWT válido",
+        "operationId": "read_users_me_users_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        },
+        "security": [{ "OAuth2PasswordBearer": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_login_token_post": {
+        "title": "Body_login_token_post",
+        "required": ["username", "password"],
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "title": "Grant Type",
+            "pattern": "password",
+            "type": "string"
+          },
+          "username": { "title": "Username", "type": "string" },
+          "password": { "title": "Password", "type": "string" },
+          "scope": { "title": "Scope", "type": "string", "default": "" },
+          "client_id": { "title": "Client Id", "type": "string" },
+          "client_secret": { "title": "Client Secret", "type": "string" }
+        }
+      },
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/ValidationError" }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": ["loc", "msg", "type"],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": { "anyOf": [{ "type": "string" }, { "type": "integer" }] }
+          },
+          "msg": { "title": "Message", "type": "string" },
+          "type": { "title": "Error Type", "type": "string" }
+        }
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": { "password": { "scopes": {}, "tokenUrl": "token" } }
+      }
+    }
+  }
+}
