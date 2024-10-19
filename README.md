@@ -115,19 +115,19 @@ Substitua seu_token_jwt_aqui pelo token JWT que você obteve no passo anterior.
 
 **Fluxo de Autenticação**:
 
-. O cliente envia uma requisição de login com as credenciais para o endpoint `/token`.
-. A API valida as credenciais e, se forem válidas, gera um token JWT.
-. O cliente usa o token JWT para acessar os endpoints protegidos.
-. A API valida o token JWT em cada requisição protegida.
-. Se o token for válido, a API permite o acesso ao recurso solicitado. Caso contrário, retorna um erro de autenticação.
+. O cliente envia uma requisição de login com as credenciais para o endpoint `/token`. ** (\**) 
+. A API valida as credenciais e, se forem válidas, gera um token JWT.** (\**) 
+. O cliente usa o token JWT para acessar os endpoints protegidos.** (\**) 
+. A API valida o token JWT em cada requisição protegida.** (\**) 
+. Se o token for válido, a API permite o acesso ao recurso solicitado. Caso contrário, retorna um erro de autenticação.** (\**) 
 
 ## **Endpoints**
 
-GET /dados/producao: Retorna dados de produção de vitivinicultura.
-GET /dados/processamento: Retorna dados de processamento de vitivinicultura.
-GET /dados/comercializacao: Retorna dados de comercialização de vitivinicultura.
-GET /dados/importacao: Retorna dados de importação de vitivinicultura.
-GET /dados/exportacao: Retorna dados de exportação de vitivinicultura.
+GET /dados/producao: Retorna dados de produção de vitivinicultura.** (\**) 
+GET /dados/processamento: Retorna dados de processamento de vitivinicultura.** (\**) 
+GET /dados/comercializacao: Retorna dados de comercialização de vitivinicultura.** (\**) 
+GET /dados/importacao: Retorna dados de importação de vitivinicultura.** (\**) 
+GET /dados/exportacao: Retorna dados de exportação de vitivinicultura.** (\**) 
 
 ## **Testes**
 
