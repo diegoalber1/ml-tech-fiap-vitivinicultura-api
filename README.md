@@ -23,7 +23,7 @@ Bem-vindo à **RM358672-fiap-vitivinicultura-api**. Esta API fornece acesso a da
 ## **Funcionalidades**
 - Consultar dados históricos e em tempo real sobre vitivinicultura.
 - Monitorar a produção de vinhos no Brasil.
-- Utilizar dados para alimentar modelos de previsão de demanda.
+- Utilizar dados para alimentar modelos de previsão de demanda de vinhos.
 - Acessar informações detalhadas sobre a comercialização e exportação de vinhos.
 
 ---
