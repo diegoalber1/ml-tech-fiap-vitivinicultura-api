@@ -353,9 +353,7 @@ sequenceDiagram
     FastAPI->>Services: get_csv_data("exportacao")
     Services-->>FastAPI: csv_export_data
     FastAPI-->>User: return csv_export_data
-
-
-
+    
 ```
 ### 5. Diagrama de Casos de Uso
 
