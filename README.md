@@ -149,7 +149,7 @@ GET /csv/comercializacao: Retorna o conteudo do arquivo csv convertido em json d
 GET /csv/importacao: Retorna o conteudo do arquivo csv convertido em json de todos os dados de importacao de vitivinicultura.\
 GET /csv/exportacao: Retorna o conteudo do arquivo csv convertido em json de todos os dados de exportacao de vitivinicultura.\
 POST /token: Retorna dados de exportação de vitivinicultura.\
-GET /users/me: Retorna dados de exportação de vitivinicultura.
+GET /users/me: Retorna dados de exportação de vitivinicultura.\
 GET /docs: Retorna a documentacao da API
 
 ## **Testes**
