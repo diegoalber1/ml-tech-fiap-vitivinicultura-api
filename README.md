@@ -229,25 +229,131 @@ Para visualizar os logs da aplicação, utilize o seguinte comando:
 ```
 
 ## Arquitetura
-### Diagrama de Arquitetura
-```plaintext
-+-------------------+        +-------------------+        +-------------------+
-|                   |        |                   |        |                   |
-|   Ingestão de     |        |   API Backend     |        |   Banco de Dados  |
-|   Dados (Embrapa) | -----> |   (FastAPI)       | -----> |   (PostgreSQL)    |
-|                   |        |                   |        |                   |
-+-------------------+        +-------------------+        +-------------------+
-        |                           |
-        v                           v
-+-------------------+        +-------------------+
-|                   |        |                   |
-|   Pipeline de     |        |   Monitoramento   |
-|   Machine Learning|        |   (Prometheus,    |
-|   (Previsão de    |        |   Grafana)        |
-|   Demanda)        |        |                   |
-|                   |        |                   |
-+-------------------+        +-------------------+
 
+### 1. Diagrama de Arquitetura de Software
+
+Este diagrama mostra a visão geral do sistema, destacando os principais componentes e suas interações. O cliente faz requisições à API FastAPI, que, por sua vez, interage com o serviço de autenticação, rotas e serviços de dados, além de fontes de dados externas. Isso ajuda a entender a estrutura geral do sistema.
+
+```mermaid
+graph TD;
+    A[Cliente] -->|API Request| B[FastAPI]
+    B --> C[Auth Service]
+    B --> D[Routes]
+    D --> E[Services]
+    E --> F[External Data Source]
+
+```
+### 2. Diagrama de Componentes
+
+Neste diagrama, são representados os componentes principais do sistema, incluindo FastAPI, serviços de autenticação, rotas e processamento de dados. Ele ilustra como esses componentes se conectam e interagem, facilitando a compreensão da modularidade da aplicação.
+
+```mermaid
+graph TD;
+    A[FastAPI] --> B[Auth]
+    A --> C[Routes]
+    C --> D[Services]
+    D --> E[Data Processing]
+    D --> F[CSV Generation]
+
+```
+### 3. Diagrama de Fluxo de Dados (DFD)
+
+O diagrama de fluxo de dados ilustra como as informações fluem entre o usuário e a API. O usuário envia credenciais à API de autenticação, que gera um token. O usuário utiliza esse token para solicitar dados, mostrando claramente o fluxo de informações no sistema.
+
+```mermaid
+graph TD;
+    A[Usuário] -->|Enviar Credenciais| B[API de Autenticação]
+    B -->|Gera Token| C[Usuário]
+    C -->|Solicita Dados| D[API de Dados]
+    D -->|Retorna Dados| C
+
+```
+### 4. Diagrama de Sequência
+
+Este diagrama representa a interação entre o usuário e os componentes do sistema ao longo do tempo. Ele detalha o processo de autenticação e a solicitação de dados, mostrando as chamadas de função e a ordem das operações, o que é útil para entender como as interações se desenrolam.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant FastAPI
+    participant Auth
+    participant Services
+
+    User->>FastAPI: POST /token
+    FastAPI->>Auth: validate_credentials(username, password)
+    Auth-->>FastAPI: access_token
+    FastAPI-->>User: return access_token
+
+    User->>FastAPI: GET /producao (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_data("producao", year)
+    Services-->>FastAPI: production_data
+    FastAPI-->>User: return production_data
+
+```
+### 5. Diagrama de Casos de Uso
+
+O diagrama de casos de uso apresenta as interações principais entre o usuário e a API. Ele mostra como os usuários podem se autenticar, consultar dados e gerar CSVs, facilitando a identificação das funcionalidades da aplicação.
+
+```mermaid
+graph TD;
+    A[Usuário] -->|Login| B[API de Autenticação]
+    A -->|Consultar Dados| C[API de Dados]
+    A -->|Gerar CSV| D[API de Dados]
+
+```
+### 6. Diagrama de Classes (Estrutural)
+
+Embora o projeto não utilize classes, este diagrama estrutura os principais módulos e funções da aplicação como se fossem classes. Isso ajuda a visualizar a organização do código e as dependências entre os diferentes componentes, destacando as funcionalidades disponíveis.
+
+```mermaid
+classDiagram
+    class FastAPI {
+        +get(path: str)
+        +post(path: str)
+    }
+
+    class Auth {
+        +create_access_token(data: dict)
+        +verify_token(token: str)
+    }
+
+    class Routes {
+        +producao(year: int)
+    }
+
+    class Services {
+        +get_data(type: str, year: int)
+    }
+
+    FastAPI --> Routes : includes
+    Routes --> Auth : depends on
+    Routes --> Services : depends on
+
+```
+### 7. Diagrama de Implantação
+
+O diagrama de implantação ilustra a arquitetura física do sistema, mostrando como o cliente interage com o servidor FastAPI, que se conecta a um banco de dados e a serviços externos. Isso é útil para entender a infraestrutura necessária para executar a aplicação.
+
+```mermaid
+graph TD;
+    A[Cliente] -->|API Requests| B[Servidor FastAPI]
+    B --> C[Banco de Dados]
+    B --> D[Serviço Externo]
+
+```
+
+### 8. Diagrama de API
+
+Este diagrama apresenta os principais endpoints da API e suas interações. Ele ilustra como as requisições são feitas para autenticação e consulta de dados, servindo como uma documentação visual para os desenvolvedores que utilizarão a API.
+
+
+```mermaid
+graph TD;
+    A[POST /token] --> B[Auth]
+    A[GET /producao] --> C[Routes]
+    C --> D[Services]
 ```
 
 ## Licença 
