@@ -251,6 +251,7 @@ graph TD
 
     D -->|Consulta| H
     B -->|Gerencia Usuários| I
+    D -->|Grava Dados| H
 
     subgraph ML [Machine Learning]
         style ML fill:#2F4F4F,stroke:#333,stroke-width:1px,color:#B0E0E6
@@ -263,10 +264,13 @@ graph TD
     F -->|Treina| E
     E -->|Resultados| G
 
-    %% Adicionando um texto simples para indicar a fase 2
-    style phase2 fill:#2F4F4F,stroke:#ffffff, olor:#B0E0E6
-    phase2[**Fase 2: Integração de Machine Learning e armazenamento em banco de dados**] 
+    %% Adicionando as Fontes de Dados Externas
+    X[Fonte de Dados Externas - /Embrapa/]
+    D -->|Consulta| X
 
+    %% Adicionando um texto simples para indicar a fase 2
+    phase2[**Fase 2: Integração de Machine Learning e armazenamento em banco de dados**] 
+    style phase2 fill:#2F4F4F,stroke:#ffffff,color:#B0E0E6
 
 ```
 ### 2. Diagrama de Componentes
