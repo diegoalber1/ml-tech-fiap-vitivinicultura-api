@@ -235,12 +235,38 @@ Para visualizar os logs da aplicação, utilize o seguinte comando:
 Este diagrama mostra a visão geral do sistema, destacando os principais componentes e suas interações. O cliente faz requisições à API FastAPI, que, por sua vez, interage com o serviço de autenticação, rotas e serviços de dados, além de fontes de dados externas. Isso ajuda a entender a estrutura geral do sistema.
 
 ```mermaid
-graph TD;
-    A[Cliente] -->|API Request| B[FastAPI]
-    B --> C[Auth Service]
-    B --> D[Routes]
-    D --> E[Services]
-    E --> F[External Data Source]
+graph TD
+    A[Usuário] -->|Consulta| B[API FastAPI]
+    B -->|Verifica Token| C[Auth]
+    C -->|Retorna Token/Informações| B
+    B -->|Consulta Dados| D[Services]
+    D -->|Retorna Dados| B
+    B -->|Retorna Resposta| A
+
+    subgraph Banco_de_Dados [Banco de Dados]
+        style Banco_de_Dados fill:#2F4F4F,stroke:#333,stroke-width:1px,color:#B0E0E6
+        H[DB de Dados de Vitivinicultura]
+        I[DB de Usuários]
+    end
+
+    D -->|Consulta| H
+    B -->|Gerencia Usuários| I
+
+    subgraph ML [Machine Learning]
+        style ML fill:#2F4F4F,stroke:#333,stroke-width:1px,color:#B0E0E6
+        E[Modelos de ML]
+        F[Pipeline de Treinamento]
+        G[Banco de Dados de Modelos]
+    end
+
+    D -->|Dados| F
+    F -->|Treina| E
+    E -->|Resultados| G
+
+    %% Adicionando um texto simples para indicar a fase 2
+    style phase2 fill:#2F4F4F,stroke:#ffffff, olor:#B0E0E6
+    phase2[**Fase 2: Integração de Machine Learning e armazenamento em banco de dados**] 
+
 
 ```
 ### 2. Diagrama de Componentes
@@ -353,7 +379,7 @@ sequenceDiagram
     FastAPI->>Services: get_csv_data("exportacao")
     Services-->>FastAPI: csv_export_data
     FastAPI-->>User: return csv_export_data
-    
+
 ```
 ### 5. Diagrama de Casos de Uso
 
