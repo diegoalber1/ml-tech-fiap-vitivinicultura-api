@@ -38,7 +38,7 @@ def get_data(section, year=None):
     if year:
         url += f"&ano={year}"
 
-    print(url)    
+    print(f"services->get_data()->{url}")    
 
     # Faz a requisição HTTP
     response = requests.get(url)
