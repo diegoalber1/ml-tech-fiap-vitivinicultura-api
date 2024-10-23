@@ -54,6 +54,12 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados 
    cd RM358672-fiap-vitivinicultura-api
 ```
 2. Crie e ative um ambiente virtual:
+Para Mac e Linux:
+```bash
+   python3 -m venv venv
+   source venv/bin/activate
+```   
+Para Windows:
 ```bash
    python3 -m venv venv
    source venv/bin/activate
@@ -64,7 +70,8 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados 
 ```   
 4. Crie o arquivo .env e configure as variáveis de ambiente citadas na seção #configuração# :
 ```bash
-   touch .env
+   touch .env   # Para Mac e Linux
+   echo.> .env  # Para Windows
 ```   
 5. Execute a aplicação localmente:
 ```bash

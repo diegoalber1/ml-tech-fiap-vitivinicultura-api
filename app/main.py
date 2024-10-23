@@ -11,3 +11,8 @@ app = FastAPI(
 # Inclui as rotas da API
 app.include_router(api_router)
 app.include_router(auth_router)
+
+# Endpoint básico para verificar se a API está funcionando
+@app.get("/")
+async def root():
+    return {"message": "Bem-vindo à RM358672-fiap-vitivinicultura-api- TECH CHALLENGE!"}
