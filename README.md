@@ -129,7 +129,7 @@ Substitua seu_token_jwt_aqui pelo token JWT que você obteve no passo anterior.
 . Se o token for válido, a API permite o acesso ao recurso solicitado. Caso contrário, retorna um erro de autenticação.
 
 ## **Endpoints**
-
+ 
 
 GET /producao: Retorna dados de produção de vitivinicultura.\
 GET /processamento: Retorna dados de processamento de vitivinicultura.\
