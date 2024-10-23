@@ -319,6 +319,42 @@ sequenceDiagram
     Services-->>FastAPI: export_data
     FastAPI-->>User: return export_data
 
+    User->>FastAPI: GET /csv/producao (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_csv_data("producao")
+    Services-->>FastAPI: csv_production_data
+    FastAPI-->>User: return csv_production_data
+
+    User->>FastAPI: GET /csv/processamento (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_csv_data("processamento")
+    Services-->>FastAPI: csv_processing_data
+    FastAPI-->>User: return csv_processing_data
+
+    User->>FastAPI: GET /csv/comercializacao (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_csv_data("comercializacao")
+    Services-->>FastAPI: csv_commercialization_data
+    FastAPI-->>User: return csv_commercialization_data
+
+    User->>FastAPI: GET /csv/importacao (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_csv_data("importacao")
+    Services-->>FastAPI: csv_import_data
+    FastAPI-->>User: return csv_import_data
+
+    User->>FastAPI: GET /csv/exportacao (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_csv_data("exportacao")
+    Services-->>FastAPI: csv_export_data
+    FastAPI-->>User: return csv_export_data
+
+
 
 ```
 ### 5. Diagrama de Casos de Uso
