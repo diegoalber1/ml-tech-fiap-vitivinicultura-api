@@ -291,6 +291,35 @@ sequenceDiagram
     Services-->>FastAPI: production_data
     FastAPI-->>User: return production_data
 
+    User->>FastAPI: GET /processamento (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_data("processamento", year)
+    Services-->>FastAPI: processing_data
+    FastAPI-->>User: return processing_data
+
+    User->>FastAPI: GET /comercializacao (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_data("comercializacao", year)
+    Services-->>FastAPI: commercialization_data
+    FastAPI-->>User: return commercialization_data
+
+    User->>FastAPI: GET /importacao (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_data("importacao", year)
+    Services-->>FastAPI: import_data
+    FastAPI-->>User: return import_data
+
+    User->>FastAPI: GET /exportacao (with token)
+    FastAPI->>Auth: verify_token(token)
+    Auth-->>FastAPI: user_info
+    FastAPI->>Services: get_data("exportacao", year)
+    Services-->>FastAPI: export_data
+    FastAPI-->>User: return export_data
+
+
 ```
 ### 5. Diagrama de Casos de Uso
 
@@ -321,10 +350,15 @@ classDiagram
 
     class Routes {
         +producao(year: int)
+        +processamento(year: int)
+        +comercializacao(year: int)
+        +importacao(year: int)
+        +exportacao(year: int)
     }
 
     class Services {
         +get_data(type: str, year: int)
+        +get_csv_data(type: str)
     }
 
     FastAPI --> Routes : includes
