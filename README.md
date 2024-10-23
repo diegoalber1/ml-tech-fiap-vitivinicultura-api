@@ -142,7 +142,7 @@ GET /producao: Retorna dados de produção de vitivinicultura.\
 GET /processamento: Retorna dados de processamento de vitivinicultura.\
 GET /comercializacao: Retorna dados de comercialização de vitivinicultura.\
 GET /importacao: Retorna dados de importação de vitivinicultura.\
-GET /exportacao: Retorna dados de exportação de vitivinicultura.
+GET /exportacao: Retorna dados de exportação de vitivinicultura. \
 GET /csv/producao: Retorna o conteudo do arquivo csv convertido em json de todos os dados de producao de vitivinicultura.\
 GET /csv/processamento: Retorna o conteudo do arquivo csv convertido em json de todos os dados de processamento de vitivinicultura.\
 GET /csv/comercializacao: Retorna o conteudo do arquivo csv convertido em json de todos os dados de comercializacao de vitivinicultura.\
