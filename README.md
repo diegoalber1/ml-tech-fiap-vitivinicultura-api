@@ -1,6 +1,6 @@
-# Vitivinicultura API
+# RM358672-fiap-vitivinicultura-api- TECH CHALLENGE
 
-Bem-vindo à **Vitivinicultura API**. Esta API fornece acesso a dados relacionados à produção, processamento, comercialização, importação e exportação de vinhos. É uma ferramenta útil para profissionais da indústria vitivinícola, pesquisadores e entusiastas que desejam obter informações detalhadas sobre o setor.
+Bem-vindo à **RM358672-fiap-vitivinicultura-api**. Esta API fornece acesso a dados relacionados à produção, processamento, comercialização, importação e exportação de vinhos. É uma ferramenta útil para profissionais da indústria vitivinícola, pesquisadores e entusiastas que desejam obter informações detalhadas sobre o setor. Este repositório foi criado para a realização do projeto do Tech Challenge da POS-Tech FIAP em Machine Learning Engineering e tem fins acadêmicos.
 
 ## **Índice**
 - [Funcionalidades](#funcionalidades)
@@ -50,8 +50,8 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados 
 ### **Passo a passo para Instalação Local**
 1. Clone o repositório:
 ```bash
-   git clone https://github.com/diegoalber1/vitivinicultura-api.git
-   cd vitivinicultura-api
+   git clone https://github.com/diegoalber1/RM358672-fiap-vitivinicultura-api.git
+   cd RM358672-fiap-vitivinicultura-api
 ```
 2. Crie e ative um ambiente virtual:
 ```bash
@@ -62,13 +62,13 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados 
 ```bash
    pip install -r requirements.txt
 ```   
-4. Configure as variáveis de ambiente:
+4. Crie o arquivo .env e configure as variáveis de ambiente citadas na seção #configuração# :
 ```bash
-   cp .env.example .env
+   touch .env
 ```   
 5. Execute a aplicação localmente:
 ```bash
-   uvicorn main:app --reload
+   uvicorn app.main:app --reload
 ```   
 Agora, a API estará rodando localmente no endereço http://127.0.0.1:8000.
 
@@ -143,6 +143,7 @@ GET /csv/importacao: Retorna o conteudo do arquivo csv convertido em json de tod
 GET /csv/exportacao: Retorna o conteudo do arquivo csv convertido em json de todos os dados de exportacao de vitivinicultura.\
 POST /token: Retorna dados de exportação de vitivinicultura.\
 GET /users/me: Retorna dados de exportação de vitivinicultura.
+GET /docs: Retorna a documentacao da API
 
 ## **Testes**
 
@@ -176,8 +177,19 @@ Para garantir que tudo está funcionando corretamente, você pode executar os te
 ```
 4. **Configure as variáveis de ambiente no Heroku:**:
 
+Configure as seguintes variáveis de ambiente no Heroku:
+
+- `SECRET_KEY`: Chave secreta para geração de tokens JWT.
+- `ALGORITHM`: Algoritmo utilizado para assinar os tokens JWT (ex: HS256).
+- `ACCESS_TOKEN_EXPIRE_MINUTES`: Tempo de expiração do token de acesso.
+- `DEBUG`: Define se o modo de depuração está ativado (True/False).
+
 ```bash
    heroku config:set SECRET_KEY=<sua_secret_key>
+   heroku config:set ALGORITHM=HS256
+   heroku config:set ACCESS_TOKEN_EXPIRE_MINUTES=30
+   heroku config:set DEBUG=True
+   
 ```
 5. **Faça o deploy da aplicação:**:
 

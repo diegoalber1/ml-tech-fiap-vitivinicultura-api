@@ -1,14 +1,15 @@
-fastapi==0.95.0
-uvicorn==0.22.0
-sqlalchemy==1.4.46
-pydantic==1.10.2
-requests==2.28.1
-beautifulsoup4==4.11.1
-PyJWT==2.4.0
-python-multipart==0.0.5
-passlib[bcrypt]==1.7.4
-pytest
-requests-mock
+fastapi==0.95.2  # Última versão estável até agora
+uvicorn==0.23.0  # Última versão estável
+sqlalchemy==1.4.47  # Atualização para correções e melhorias
+pydantic==1.10.5  # Última versão estável com correções
+requests==2.31.0  # Versão mais recente
+beautifulsoup4==4.12.0  # Última versão com melhorias
+PyJWT==2.6.0  # Atualização com correções de segurança
+python-multipart==0.0.6  # Atualização para correções
+passlib[bcrypt]==1.7.4  # Versão estável
+pytest==7.4.0  # Última versão estável
+requests-mock==1.11.0  # Atualização para compatibilidade
+python-dotenv==0.21.1 # Última versão estável
 
 # fastapi==0.95.0: Framework para construir APIs rápidas e eficientes.
 # uvicorn==0.22.0: Servidor ASGI para rodar a aplicação FastAPI.

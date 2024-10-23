@@ -2,11 +2,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from datetime import datetime, timedelta
 import jwt
+import os
+from dotenv import load_dotenv
 
-# Chave secreta para assinar os tokens JWT
-SECRET_KEY = "e9b1f8a9c8f4e2b7a1d9f8e7c6b5a4d3e2f1c0b9a8d7e6f5c4b3a2f1e0d9c8b7"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+# Carregar as variáveis de ambiente do arquivo .env
+load_dotenv()
+
+# Chave secreta e configurações de token vindas das variáveis de ambiente
+SECRET_KEY = os.getenv("SECRET_KEY", "default_secret_key")  # Defina um valor padrão se não estiver presente
+ALGORITHM = os.getenv("ALGORITHM", "HS256")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))  # Valor padrão é 30
 
 # OAuth2PasswordBearer é o esquema de autenticação que espera um token JWT
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
