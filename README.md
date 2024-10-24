@@ -117,7 +117,8 @@ A API utiliza **JWT (JSON Web Tokens)** para autenticação. Para acessar os end
 Substitua seu_token_jwt_aqui pelo token JWT que você obteve no passo anterior.
 
 3. **Acessar o Endpoint Protegido no Railway**:
-Para fins de avaliacao, essa API se encontra disponivel no Railway atraves deste [link](web-production-35d2.up.railway.app)
+Para fins de avaliação, essa API se encontra disponível no Railway através deste [link](https://web-production-35d2.up.railway.app).
+
 
 
 **Fluxo de Autenticação**:
@@ -172,7 +173,7 @@ Para garantir que tudo está funcionando corretamente, você pode executar os te
    - Após a configuração, o Railway irá automaticamente iniciar o processo de deploy. Você poderá visualizar os logs e o status da aplicação no painel.
 
 6. **Acessar a Aplicação**
-   - Assim que o deploy for concluído, você poderá acessar sua aplicação pelo URL fornecido pelo Railway. 
+   - Assim que o deploy for concluído, você poderá acessar sua aplicação pelo URL fornecido pelo Railway. [Neste se encontra uma instância para fins de avaliação](web-production-35d2.up.railway.app)
 
 
 ## **Monitoramento**
