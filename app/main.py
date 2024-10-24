@@ -15,4 +15,4 @@ app.include_router(auth_router)
 # Endpoint básico para verificar se a API está funcionando
 @app.get("/")
 async def root():
-    return {"message": "Bem-vindo à RM358672-fiap-vitivinicultura-api- TECH CHALLENGE!"}
+    return {"message": "Bem-vindo à ml-tech-fiap-vitivinicultura-api criada para o FIAP-Tech Challenge!"}
