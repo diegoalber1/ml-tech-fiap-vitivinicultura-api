@@ -177,7 +177,7 @@ Para garantir que tudo está funcionando corretamente, você pode executar os te
    - Após a configuração, o Railway irá automaticamente iniciar o processo de deploy. Você poderá visualizar os logs e o status da aplicação no painel.
 
 6. **Acessar a Aplicação**
-   - Assim que o deploy for concluído, você poderá acessar sua aplicação pelo URL fornecido pelo Railway. [Neste se encontra uma instância para fins de avaliação](web-production-35d2.up.railway.app)
+   - Assim que o deploy for concluído, você poderá acessar sua aplicação pelo URL fornecido pelo Railway. [Neste se encontra uma instância para fins de avaliação](https://web-production-35d2.up.railway.app/)
 
 
 ## **Monitoramento**
