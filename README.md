@@ -1,6 +1,5 @@
-# RM358672-fiap-vitivinicultura-api- TECH CHALLENGE
-
-Bem-vindo à **RM358672-fiap-vitivinicultura-api**. Esta API fornece acesso a dados relacionados à produção, processamento, comercialização, importação e exportação de vinhos. É uma ferramenta útil para profissionais da indústria vitivinícola, pesquisadores e entusiastas que desejam obter informações detalhadas sobre o setor. Este repositório foi criado para a realização do projeto do Tech Challenge da POS-Tech FIAP em Machine Learning Engineering e tem fins acadêmicos.
+# ml-tech-fiap-vitivinicultura-api [tech challenge]
+Esta API oferece acesso a dados abrangentes sobre a produção, processamento, comercialização, importação e exportação de vinhos. Este repositório foi desenvolvido no âmbito do Tech Challenge da POS-Tech FIAP em Machine Learning Engineering, tendo objetivos estritamente acadêmicos.
 
 ## **Índice**
 - [Funcionalidades](#funcionalidades)
@@ -41,7 +40,6 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados 
 
 - **Python 3.12+**: [Instalar Python](https://www.python.org/downloads/)
 - **Git**: [Instalar Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-- **Heroku CLI** (caso deseje realizar o deploy no Heroku): [Instalar Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
 
 ---
 
@@ -50,8 +48,8 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados 
 ### **Passo a passo para Instalação Local**
 1. Clone o repositório:
 ```bash
-   git clone https://github.com/diegoalber1/RM358672-fiap-vitivinicultura-api.git
-   cd RM358672-fiap-vitivinicultura-api
+   git clone https://github.com/diegoalber1/ml-tech-fiap-vitivinicultura-api.git
+   cd ml-tech-fiap-vitivinicultura-api 
 ```
 2. Crie e ative um ambiente virtual:
 Para Mac e Linux:
@@ -73,18 +71,7 @@ Para Windows:
    touch .env   # Para Mac e Linux
    echo.> .env  # Para Windows
 ```   
-5. Execute a aplicação localmente:
-```bash
-   uvicorn app.main:app --reload
-```   
-Agora, a API estará rodando localmente no endereço http://127.0.0.1:8000.
-
-## **Configuração**
-
-### **Variáveis de Ambiente**
-Certifique-se de configurar as seguintes variáveis de ambiente no arquivo `.env`:
-
-
+5. Certifique-se de configurar as seguintes variáveis de ambiente no arquivo `.env`:
 - `SECRET_KEY`: Chave secreta para geração de tokens JWT.
 - `ALGORITHM`: Algoritmo utilizado para assinar os tokens JWT (ex: HS256).
 - `ACCESS_TOKEN_EXPIRE_MINUTES`: Tempo de expiração do token de acesso.
@@ -99,9 +86,13 @@ ACCESS_TOKEN_EXPIRE_MINUTES=30
 DEBUG=True
 ```
 
+6. Execute a aplicação localmente:
+```bash
+   uvicorn app.main:app --reload
+```   
+Agora, a API estará rodando localmente no endereço http://127.0.0.1:8000.
 
 ## **Documentação da API**
-
 A documentação da API está disponível no formato OpenAPI. Você pode visualizar o arquivo JSON [aqui](./docs/openapi.json).
 
 
@@ -137,7 +128,6 @@ Substitua seu_token_jwt_aqui pelo token JWT que você obteve no passo anterior.
 
 ## **Endpoints**
  
-
 - **GET /producao:** Retorna dados de produção de vitivinicultura.
 - **GET /processamento:** Retorna dados de processamento de vitivinicultura.
 - **GET /comercializacao:** Retorna dados de comercialização de vitivinicultura.
@@ -157,76 +147,33 @@ Substitua seu_token_jwt_aqui pelo token JWT que você obteve no passo anterior.
 ### **Executar Testes**
 Para garantir que tudo está funcionando corretamente, você pode executar os testes automatizados:
 
-1. **Instale as dependências de teste:**:
-```bash
-   pip install -r requirements-test.txt
-```
-
-2. **Execute os testes:**:
-
 ```bash
    pytest
 ```
 
 ## **Deploy**
 
-### **Deploy no Heroku**
-1. **Crie uma conta no Heroku (se ainda não tiver) e instale o Heroku CLI.**:
+### **Deploy no Railway***
+1. **Acesse o Railway**
+   - Visite [Railway](https://railway.app) e crie uma conta ou faça login.
 
-2. **Faça login no Heroku:**:
-```bash
-   heroku login
-```
-3. **Crie um novo app no Heroku:**:
+2. **Criar Novo Projeto**
+   - Clique em "New Project" e selecione "Deploy from GitHub".
 
-```bash
-   heroku create vitivinicultura-api   
-```
-4. **Configure as variáveis de ambiente no Heroku:**:
+3. **Conectar ao Repositório**
+   - Escolha o repositório onde seu projeto está hospedado.
 
-Configure as seguintes variáveis de ambiente no Heroku:
+4. **Configurar Variáveis de Ambiente**
+   - No painel do Railway, vá até "Settings" e adicione as variáveis de ambiente necessárias, como `SECRET_KEY`, `ALGORITHM`, `ACCESS_TOKEN_EXPIRE_MINUTES` e `DEBUG`.
 
-- `SECRET_KEY`: Chave secreta para geração de tokens JWT.
-- `ALGORITHM`: Algoritmo utilizado para assinar os tokens JWT (ex: HS256).
-- `ACCESS_TOKEN_EXPIRE_MINUTES`: Tempo de expiração do token de acesso.
-- `DEBUG`: Define se o modo de depuração está ativado (True/False).
+5. **Deploy**
+   - Após a configuração, o Railway irá automaticamente iniciar o processo de deploy. Você poderá visualizar os logs e o status da aplicação no painel.
 
-```bash
-   heroku config:set SECRET_KEY=<sua_secret_key>
-   heroku config:set ALGORITHM=HS256
-   heroku config:set ACCESS_TOKEN_EXPIRE_MINUTES=30
-   heroku config:set DEBUG=True
-   
-```
-5. **Faça o deploy da aplicação:**:
-
-```bash
-   git push heroku main 
-```
-6. **Escale a aplicação:**:
-
-```bash
-   heroku ps:scale web=1  
-```
-7. **Acesse a aplicação:**:
-
-```bash
-   heroku open
-```
+6. **Acessar a Aplicação**
+   - Assim que o deploy for concluído, você poderá acessar sua aplicação pelo URL fornecido pelo Railway.
 
 ## **Monitoramento**
-
-### **Heroku Metrics**
-
-O Heroku oferece métricas integradas para monitorar o desempenho da aplicação, como uso de CPU, memória e tempo de resposta. Essas métricas podem ser acessadas diretamente no painel do Heroku.
-
-### **Heroku Logs**
-
-Para visualizar os logs da aplicação, utilize o seguinte comando:
-
-```bash
-   heroku logs --tail
-```
+- O Railway oferece métricas integradas e logs que podem ser acessados diretamente no painel para monitorar o desempenho da aplicação.
 
 ## Arquitetura
 
@@ -454,18 +401,6 @@ graph TD;
     C --> D[Services]
 ```
 
-## Licença 
+## Licença
 
-Este projeto está licenciado sob a Licença MIT. Isso significa que você pode usar, copiar, modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do software, desde que mantenha o aviso de copyright original. Leia o arquivo [LICENSE](./LICENSE) para mais detalhes. --- MIT License Copyright (c) [2024] [Diego Alberone Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Este projeto está licenciado sob a Licença MIT. Isso significa que você pode usar, copiar, modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do software, desde que mantenha o aviso de copyright original. Para mais detalhes, consulte o arquivo [LICENSE](./LICENSE).
