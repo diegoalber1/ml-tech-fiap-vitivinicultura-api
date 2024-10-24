@@ -108,6 +108,10 @@ A API utiliza **JWT (JSON Web Tokens)** para autenticação. Para acessar os end
    -d 'username=seu_usuario&password=sua_senha'
 ```
 
+**⚠️ Importante**: Para fins de testes nesta API, utilize as seguintes credenciais:
+- **username**: fiap
+- **password**: mltech
+
 2. **Acessar o Endpoint Protegido**:
 ```bash
    curl -X 'GET' \
