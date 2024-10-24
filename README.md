@@ -6,7 +6,6 @@ Esta API oferece acesso a dados abrangentes sobre a produção, processamento, c
 - [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Pré-requisitos](#pré-requisitos)
 - [Instalação](#instalação)
-- [Configuração](#configuração)
 - [Documentação da API](#documentação-da-API)
 - [Uso](#uso)
 - [Autenticação](#autenticação)
@@ -110,13 +109,16 @@ A API utiliza **JWT (JSON Web Tokens)** para autenticação. Para acessar os end
 ```
 
 2. **Acessar o Endpoint Protegido**:
-
 ```bash
    curl -X 'GET' \
    'http://localhost:8000/users/me' \
    -H 'Authorization: Bearer seu_token_jwt_aqui'
 ```
 Substitua seu_token_jwt_aqui pelo token JWT que você obteve no passo anterior.
+
+3. **Acessar o Endpoint Protegido no Railway**:
+Para fins de avaliacao, essa API se encontra disponivel no Railway atraves deste [link](web-production-35d2.up.railway.app)
+
 
 **Fluxo de Autenticação**:
 
@@ -170,7 +172,8 @@ Para garantir que tudo está funcionando corretamente, você pode executar os te
    - Após a configuração, o Railway irá automaticamente iniciar o processo de deploy. Você poderá visualizar os logs e o status da aplicação no painel.
 
 6. **Acessar a Aplicação**
-   - Assim que o deploy for concluído, você poderá acessar sua aplicação pelo URL fornecido pelo Railway.
+   - Assim que o deploy for concluído, você poderá acessar sua aplicação pelo URL fornecido pelo Railway. 
+
 
 ## **Monitoramento**
 - O Railway oferece métricas integradas e logs que podem ser acessados diretamente no painel para monitorar o desempenho da aplicação.
