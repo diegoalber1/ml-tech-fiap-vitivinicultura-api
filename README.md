@@ -30,16 +30,15 @@ Esta API oferece acesso a dados abrangentes sobre a produção, processamento, c
 - **JWT (JSON Web Tokens)**: Utilizado para autenticação segura.
 - **Railway**: Plataforma de deploy em nuvem.
 - **Docker**: Ferramenta para criar e gerenciar containers, facilitando o ambiente de desenvolvimento e deploy.
+- **Docker Compose**: Utilizado para definir e executar múltiplos containers.
 - **Python 3.12+**: Linguagem de programação utilizada no desenvolvimento da API.
-
----
 
 ## **Pré-requisitos**
 Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados em sua máquina:
-
 - **Python 3.12+**: [Instalar Python](https://www.python.org/downloads/)
 - **Git**: [Instalar Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - **Docker**: [Instalar Docker](https://docs.docker.com/get-docker/)
+- **Docker Compose**: [Instalar Docker Compose](https://docs.docker.com/compose/install/)
 
 ---
 
