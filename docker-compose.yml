@@ -1,15 +1,13 @@
 version: '3.8'
 
 services:
-  application:
+  vitivinicultura-api:
     build:
       context: .
-      dockerfile: Dockerfile  # Certifique-se de que seu Dockerfile está no diretório raiz
-      args:
-        requirements_file: requirements.txt
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
-    env_file: .env
+    env_file:
+      - .env
     volumes:
-      - ./app:/app  # Monta a pasta app no contêiner, útil para desenvolvimento
-    entrypoint: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]  # --reload para auto-reload em desenvolvimento
+      - .:/app  # Mapeia o diretório atual para o container (opcional para desenvolvimento)

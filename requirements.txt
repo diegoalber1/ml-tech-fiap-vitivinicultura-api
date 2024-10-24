@@ -1,7 +1,7 @@
-fastapi==0.95.2  # Framework para construir APIs rápidas e eficientes.
+fastapi==0.95.0  # Framework para construir APIs rápidas e eficientes.
 uvicorn==0.23.0  # Servidor ASGI para rodar a aplicação FastAPI.
 sqlalchemy==1.4.47  # ORM para interagir com o banco de dados de forma fácil e eficiente.
-pydantic==1.10.5  # Biblioteca para validação de dados e configurações no FastAPI.
+pydantic==1.10.16  # Biblioteca para validação de dados e configurações no FastAPI.
 requests==2.31.0  # Biblioteca para fazer requisições HTTP de forma simples.
 beautifulsoup4==4.12.0  # Biblioteca para fazer parsing e manipulação de HTML (usada para scraping).
 PyJWT==2.6.0  # Biblioteca para gerar e validar tokens JWT (usada para autenticação).

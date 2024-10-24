@@ -1,20 +1,23 @@
-# Usar a imagem base do Python 3.12 com Alpine
-FROM python:3.12-alpine
+# Escolha uma imagem base
+FROM python:3.12-slim
 
-# Definir diretório de trabalho no contêiner
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copiar o arquivo de requisitos para o contêiner
+# Copia os arquivos de requisitos
 COPY requirements.txt .
 
-# Instalar dependências
+# Instala as dependências
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar o restante do código da aplicação para o contêiner
+# Copia o restante do código para o diretório de trabalho
 COPY ./app ./app
 
-# Expor a porta que a aplicação usará
+# Copia o arquivo .env
+COPY .env .env
+
+# Expõe a porta da aplicação
 EXPOSE 8000
 
-# Definir o comando de entrada
-ENTRYPOINT ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Comando para iniciar a aplicação
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
