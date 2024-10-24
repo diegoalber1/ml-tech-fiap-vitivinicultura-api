@@ -10,7 +10,6 @@ Esta API oferece acesso a dados abrangentes sobre a produção, processamento, c
 - [Uso](#uso)
 - [Autenticação](#autenticação)
 - [Endpoints](#endpoints)
-- [Testes](#testes)
 - [Deploy](#deploy)
 - [Monitoramento](#monitoramento)
 - [Arquitetura](#Arquitetura)
@@ -21,15 +20,16 @@ Esta API oferece acesso a dados abrangentes sobre a produção, processamento, c
 ## **Funcionalidades**
 - Consultar dados históricos e em tempo real sobre vitivinicultura.
 - Monitorar a produção de vinhos no Brasil.
-- Utilizar dados para alimentar modelos de previsão de demanda de vinhos.
 - Acessar informações detalhadas sobre a comercialização e exportação de vinhos.
+- Utilizar dados para alimentar modelos de previsão de demanda de vinhos (previsto para a fase 2 do projeto).
 
 ---
 
 ## **Tecnologias Utilizadas**
 - **FastAPI**: Framework de alto desempenho para construção de APIs em Python.
 - **JWT (JSON Web Tokens)**: Utilizado para autenticação segura.
-- **Heroku**: Plataforma de deploy em nuvem.
+- **Railway**: Plataforma de deploy em nuvem.
+- **Docker**: Ferramenta para criar e gerenciar containers, facilitando o ambiente de desenvolvimento e deploy.
 - **Python 3.12+**: Linguagem de programação utilizada no desenvolvimento da API.
 
 ---
@@ -39,6 +39,7 @@ Antes de começar, certifique-se de ter os seguintes pré-requisitos instalados 
 
 - **Python 3.12+**: [Instalar Python](https://www.python.org/downloads/)
 - **Git**: [Instalar Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- **Docker**: [Instalar Docker](https://docs.docker.com/get-docker/)
 
 ---
 
@@ -91,8 +92,40 @@ DEBUG=True
 ```   
 Agora, a API estará rodando localmente no endereço http://127.0.0.1:8000.
 
-## **Documentação da API**
-A documentação da API está disponível no formato OpenAPI. Você pode visualizar o arquivo JSON [aqui](./docs/openapi.json).
+### **Executar Testes**
+Para garantir que tudo está funcionando corretamente, você pode executar os testes automatizados:
+
+```bash
+   pytest
+```
+
+### **Passo a passo para Instalação no Docker**
+1. **Certifique-se de que o Docker está instalado**:
+   - Verifique se você tem o Docker instalado em sua máquina. Caso não tenha, você pode seguir as instruções de instalação [aqui](https://docs.docker.com/get-docker/).
+
+2. **Clone o repositório**:
+```bash
+   git clone https://github.com/diegoalber1/ml-tech-fiap-vitivinicultura-api.git
+   cd ml-tech-fiap-vitivinicultura-api
+```
+
+3. **Crie um arquivo `.env` na raiz do projeto**:
+```bash
+   SECRET_KEY=supersecretkey
+   ALGORITHM=HS256
+   ACCESS_TOKEN_EXPIRE_MINUTES=30
+   DEBUG=True
+```
+4. **Construir a imagem Docker**:
+```bash
+   docker build -t vitivinicultura-api .
+```
+5. **Executar o container:**:
+```bash
+   docker run -d -p 8000:8000 --env-file .env --name vitivinicultura-api vitivinicultura-api
+```
+6. **Acessar a API:**:
+A API estará disponível em [http://localhost:8000](http://localhost:8000). 
 
 
 ## **Uso**
@@ -120,9 +153,8 @@ A API utiliza **JWT (JSON Web Tokens)** para autenticação. Para acessar os end
 ```
 Substitua seu_token_jwt_aqui pelo token JWT que você obteve no passo anterior.
 
-3. **Acessar o Endpoint Protegido no Railway**:
+3. **Acessar o API no Railway**:
 Para fins de avaliação, essa API se encontra disponível no Railway através deste [link](https://web-production-35d2.up.railway.app).
-
 
 
 **Fluxo de Autenticação**:
@@ -133,30 +165,25 @@ Para fins de avaliação, essa API se encontra disponível no Railway através d
 . A API valida o token JWT em cada requisição protegida.\
 . Se o token for válido, a API permite o acesso ao recurso solicitado. Caso contrário, retorna um erro de autenticação.
 
-## **Endpoints**
+### **Documentação da API**
+A documentação da API está disponível no formato OpenAPI. Você pode visualizar o arquivo JSON completo [aqui](./docs/openapi.json).
+
+**Endpoints**
  
-- **GET /producao:** Retorna dados de produção de vitivinicultura.
-- **GET /processamento:** Retorna dados de processamento de vitivinicultura.
-- **GET /comercializacao:** Retorna dados de comercialização de vitivinicultura.
-- **GET /importacao:** Retorna dados de importação de vitivinicultura.
-- **GET /exportacao:** Retorna dados de exportação de vitivinicultura. 
-- **GET /csv/producao:** Retorna o conteudo do arquivo csv convertido em json de todos os dados de producao de vitivinicultura.
-- **GET /csv/processamento:** Retorna o conteudo do arquivo csv convertido em json de todos os dados de processamento de vitivinicultura.
-- **GET /csv/comercializacao:** Retorna o conteudo do arquivo csv convertido em json de todos os dados de comercializacao de vitivinicultura.
-- **GET /csv/importacao:** Retorna o conteudo do arquivo csv convertido em json de todos os dados de importacao de vitivinicultura.
-- **GET /csv/exportacao:** Retorna o conteudo do arquivo csv convertido em json de todos os dados de exportacao de vitivinicultura.
-- **POST /token:** Retorna dados de exportação de vitivinicultura.
-- **GET /users/me:** Retorna dados de exportação de vitivinicultura.
-- **GET /docs:** Retorna a documentacao da API
+- **`GET /producao/{year}`** Retorna dados de produção de vitivinicultura.
+- **`GET /processamento/{year}`** Retorna dados de processamento de vitivinicultura.
+- **`GET /comercializacao/{year}`** Retorna dados de comercialização de vitivinicultura.
+- **`GET /importacao/{year}`** Retorna dados de importação de vitivinicultura.
+- **`GET /exportacao/{year}`** Retorna dados de exportação de vitivinicultura. 
+- **`GET /csv/producao:`** Retorna o conteudo do arquivo csv convertido em json de todos os dados de producao de vitivinicultura.
+- **`GET /csv/processamento:`** Retorna o conteudo do arquivo csv convertido em json de todos os dados de processamento de vitivinicultura.
+- **`GET /csv/comercializacao:`** Retorna o conteudo do arquivo csv convertido em json de todos os dados de comercializacao de vitivinicultura.
+- **`GET /csv/importacao:`** Retorna o conteudo do arquivo csv convertido em json de todos os dados de importacao de vitivinicultura.
+- **`GET /csv/exportacao:`** Retorna o conteudo do arquivo csv convertido em json de todos os dados de exportacao de vitivinicultura.
+- **`POST /token:`** Gera o JWT token para autenticação
+- **`GET /users/me:`** Retorna os dados do usuário autenticado.
+- **`GET /docs:`** Retorna a documentação da API.
 
-## **Testes**
-
-### **Executar Testes**
-Para garantir que tudo está funcionando corretamente, você pode executar os testes automatizados:
-
-```bash
-   pytest
-```
 
 ## **Deploy**
 
@@ -178,7 +205,6 @@ Para garantir que tudo está funcionando corretamente, você pode executar os te
 
 6. **Acessar a Aplicação**
    - Assim que o deploy for concluído, você poderá acessar sua aplicação pelo URL fornecido pelo Railway. [Neste se encontra uma instância para fins de avaliação](https://web-production-35d2.up.railway.app/)
-
 
 ## **Monitoramento**
 - O Railway oferece métricas integradas e logs que podem ser acessados diretamente no painel para monitorar o desempenho da aplicação.
