@@ -68,6 +68,7 @@ Para Windows:
 4. Crie o arquivo .env e configure as variáveis de ambiente citadas na seção #configuração# :
 ```bash
    touch .env   # Para Mac e Linux
+
    echo.> .env  # Para Windows
 ```   
 5. Certifique-se de configurar as seguintes variáveis de ambiente no arquivo `.env`:
@@ -113,7 +114,7 @@ Para garantir que tudo está funcionando corretamente, você pode executar os te
    SECRET_KEY=supersecretkey
    ALGORITHM=HS256
    ACCESS_TOKEN_EXPIRE_MINUTES=30
-   DEBUG=True
+   DEBUG=False
 ```
 4. **Construir a imagem Docker**:
 ```bash
