@@ -1,30 +1,20 @@
 import requests
 import csv
 import io
+import json
 from bs4 import BeautifulSoup
 
-# Base URL do site da Embrapa
-BASE_URL = "https://web.archive.org/web/20200217141254/http://vitibrasil.cnpuv.embrapa.br/index.php"
+# Carrega a configuração a partir de um arquivo JSON
+def load_config(config_path='data/config.json'):
+    with open(config_path, 'r') as f:
+        return json.load(f)
 
-# Mapeamento das seções para as URLs específicas
-SECTIONS = {
-    "producao": "?opcao=opt_02",
-    "processamento": "?opcao=opt_03",
-    "comercializacao": "?opcao=opt_04",
-    "importacao": "?opcao=opt_05",
-    "exportacao": "?opcao=opt_06"
-}
+# Carrega as URLs de configuração
+config = load_config()
 
-#http://vitibrasil.cnpuv.embrapa.br/index.php?ano=2023&opcao=opt_02
-
-# Mapeamento das URLs dos arquivos CSV
-CSV_URLS = {
-    "producao": "https://web.archive.org/web/20201203223441/http://vitibrasil.cnpuv.embrapa.br/download/Producao.csv",
-    "processamento": "https://web.archive.org/web/20201203225233/http://vitibrasil.cnpuv.embrapa.br/download/ProcessaViniferas.csv",
-    "comercializacao": "https://web.archive.org/web/20201203225233/http://vitibrasil.cnpuv.embrapa.br/download/Comercio.csv",
-    "importacao": "https://web.archive.org/web/20201203225233/http://vitibrasil.cnpuv.embrapa.br/download/ImpVinhos.csv",
-    "exportacao": "https://web.archive.org/web/20201203225233/http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv",
-}
+BASE_URL = config["base_url"]
+SECTIONS = config["sections"]
+CSV_URLS = config["csv_urls"]
 
 def get_data(section, year=None):
     # Verifica se a seção existe no mapeamento
@@ -38,7 +28,7 @@ def get_data(section, year=None):
     if year:
         url += f"&ano={year}"
 
-    print(f"services->get_data()->{url}")    
+    print(f"services->get_data()->{url}")
 
     # Faz a requisição HTTP
     response = requests.get(url)
@@ -78,7 +68,7 @@ def get_csv_data(section):
 
     # Faz o download do arquivo CSV
     csv_url = CSV_URLS[section]
-    print(csv_url)    
+    print(f"services->get_csv_data()->{csv_url}")
     response = requests.get(csv_url)
     if response.status_code == 200:
         # Lê o conteúdo do CSV
