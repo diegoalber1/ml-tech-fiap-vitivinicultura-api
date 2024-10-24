@@ -83,7 +83,7 @@ Exemplo de arquivo `.env`:
 SECRET_KEY=supersecretkey
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
-DEBUG=True
+DEBUG=False
 ```
 
 6. Execute a aplicação localmente:
