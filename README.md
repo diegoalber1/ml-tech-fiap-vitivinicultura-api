@@ -250,7 +250,7 @@ graph TD
     D -->|Consulta| X
 
     %% Adicionando um texto simples para indicar a fase 3
-    phase2[**Fase 3 (TECH CHALLENGE): Integração de Machine Learning e armazenamento em banco de dados e aplicacao para predicao**] 
+    phase2[**Fase 3 TECH CHALLENGE: Integração de Machine Learning e armazenamento em banco de dados e aplicacao para predicao**] 
     style phase2 fill:#2F4F4F,stroke:#ffffff,color:#B0E0E6
 
 ```
