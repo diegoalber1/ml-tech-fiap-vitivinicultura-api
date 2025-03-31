@@ -11,3 +11,12 @@ pytest==7.4.0  # Framework de testes para facilitar a escrita e execução de te
 requests-mock==1.11.0  # Biblioteca para simular requisições HTTP em testes.
 python-dotenv==0.21.1  # Carrega variáveis de ambiente de um arquivo .env para configuração.
 httpx==0.24.0  # Biblioteca para fazer requisições HTTP de forma assíncrona e sincronizada.
+psycopg2
+pandas
+scikit-learn
+matplotlib
+streamlit
+psycopg2-binary
+streamlit-aggrid
+imbalanced
+seaborn

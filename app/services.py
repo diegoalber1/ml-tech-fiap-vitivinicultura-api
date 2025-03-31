@@ -4,6 +4,8 @@ import io
 import json
 import logging
 from bs4 import BeautifulSoup
+from app.database import get_db_connection
+import logging
 
 # Configuração de logging
 logging.basicConfig(level=logging.INFO)
@@ -99,3 +101,178 @@ def get_csv_data(section):
         csv_data.append(dict(zip(headers, row)))
 
     return csv_data
+
+
+
+def save_producao_data(data, year):
+    """
+    Salva os dados de produção no banco de dados.
+    :param data: Dados retornados pela função get_data.
+    :param year: Ano dos dados a serem salvos.
+    """
+    if "error" in data:
+        logging.error(f"Erro nos dados: {data['error']}")
+        return {"status": "error", "message": data["error"]}
+
+    headers = data["headers"]
+    rows = data["rows"]
+    logging.info(f"Headers retornados: {headers}")
+
+    # Mapeamento de colunas para os campos do banco de dados
+    column_mapping = {
+        "Produto": "produto",
+        "Quantidade (L.)": "quantidade_litros",
+    }
+
+    # Verifica se os headers correspondem às colunas esperadas
+    db_columns = [column_mapping.get(header, None) for header in headers]
+    if None in db_columns:
+        logging.error("Os headers não correspondem às colunas esperadas.")
+        return {"status": "error", "message": "Headers inválidos."}
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Query de inserção
+    query = """
+        INSERT INTO producao (ano, produto, quantidade_litros)
+        VALUES (%s, %s, %s)
+        ON CONFLICT (ano, produto) DO UPDATE
+        SET quantidade_litros = EXCLUDED.quantidade_litros;
+    """
+
+    try:
+        for row in rows:
+            # Mapeia os valores para as colunas do banco
+            values = [row[headers.index(header)] for header in headers]
+
+            # Remove os pontos do valor de "Quantidade (L.)"
+            if "Quantidade (L.)" in headers:
+                quantidade_index = headers.index("Quantidade (L.)")
+                values[quantidade_index] = values[quantidade_index].replace('.', '') if values[quantidade_index] != '-' else None
+
+            # Adiciona o ano aos valores
+            values.insert(0, year)
+
+            # Converte o valor de quantidade para inteiro, se não for nulo
+            if values[2] is not None:
+                values[2] = int(values[2])
+
+            cursor.execute(query, values)
+
+        conn.commit()
+        logging.info("Dados de produção salvos com sucesso.")
+        return {"status": "success", "message": "Dados salvos com sucesso."}
+    except Exception as e:
+        conn.rollback()
+        logging.error(f"Erro ao salvar os dados: {e}")
+        return {"status": "error", "message": "Erro ao salvar os dados."}
+    finally:
+        cursor.close()
+        conn.close() 
+
+def fetch_and_save_producao(year):
+    """
+    Obtém os dados de produção e os salva no banco de dados.
+
+    :param year: Ano para filtrar os dados.
+    :return: Mensagem de sucesso ou erro.
+    """
+    data = get_data("producao", year)
+    saved_data = save_producao_data(data, year)
+    return data
+
+
+def save_exportacao_data(data, year):
+    """ Salva os dados de exportação no banco de dados.
+    :param data: Dados retornados pela função get_data.
+    :param year: Ano dos dados a serem salvos.
+    """
+    if "error" in data:
+        logging.error(f"Erro nos dados: {data['error']}")
+        return {"status": "error", "message": data["error"]}
+
+    headers = data["headers"]
+    rows = data["rows"]
+    logging.info(f"Headers retornados: {headers}")
+
+    # Mapeamento de colunas para os campos do banco de dados
+    column_mapping = {
+        "Países": "pais",
+        "Quantidade (Kg)": "quantidade_litros",
+        "Valor (US$)": "valor_usd",
+    }
+
+    # Verifica se os headers correspondem às colunas esperadas
+    db_columns = [column_mapping.get(header, None) for header in headers]
+    if None in db_columns:
+        logging.error("Os headers não correspondem às colunas esperadas.")
+        return {"status": "error", "message": "Headers inválidos."}
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    # Query de inserção
+    query = """
+        INSERT INTO exportacao (ano, pais, quantidade_litros, valor_usd)
+        VALUES (%s, %s, %s, %s)
+        ON CONFLICT (ano, pais) DO UPDATE
+        SET quantidade_litros = EXCLUDED.quantidade_litros,
+            valor_usd = EXCLUDED.valor_usd;
+    """
+
+    try:
+        for row in rows:
+            # Mapeia os valores para as colunas do banco
+            values = [row[headers.index(header)] for header in headers]
+
+            # Remove os pontos e vírgulas dos valores numéricos e trata valores inválidos
+            if "Quantidade (Kg)" in headers:
+                quantidade_index = headers.index("Quantidade (Kg)")
+                values[quantidade_index] = (
+                    values[quantidade_index].replace('.', '').replace(',', '')
+                    if values[quantidade_index] != '-' else None
+                )
+
+            if "Valor (US$)" in headers:
+                valor_index = headers.index("Valor (US$)")
+                values[valor_index] = (
+                    values[valor_index].replace('.', '').replace(',', '')
+                    if values[valor_index] != '-' else None
+                )
+
+            # Adiciona o ano aos valores
+            values.insert(0, year)
+
+            # Converte os valores para os tipos corretos, se não forem nulos
+            if values[2] is not None:  # Quantidade (Kg)
+                values[2] = int(values[2])
+            if values[3] is not None:  # Valor (US$)
+                values[3] = float(values[3])
+
+            # Executa a query
+            cursor.execute(query, values)
+
+        conn.commit()
+        logging.info("Dados de exportação salvos com sucesso.")
+        return {"status": "success", "message": "Dados salvos com sucesso."}
+
+    except Exception as e:
+        conn.rollback()
+        logging.error(f"Erro ao salvar os dados: {e}")
+        return {"status": "error", "message": "Erro ao salvar os dados."}
+
+    finally:
+        cursor.close()
+        conn.close()
+
+def fetch_and_save_exportacao(year):
+    """
+    Obtém os dados de exportacao e os salva no banco de dados.
+
+    :param year: Ano para filtrar os dados.
+    :return: Mensagem de sucesso ou erro.
+    """
+    data = get_data("exportacao", year)
+    saved_data = save_exportacao_data(data, year)
+    return data

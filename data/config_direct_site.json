@@ -1,0 +1,17 @@
+{
+    "base_url": "http://vitibrasil.cnpuv.embrapa.br/index.php",
+    "sections": {
+        "producao": "?opcao=opt_02",
+        "processamento": "?opcao=opt_03",
+        "comercializacao": "?opcao=opt_04",
+        "importacao": "?opcao=opt_05",
+        "exportacao": "?opcao=opt_06"
+    },
+    "csv_urls": {
+        "producao": "http://vitibrasil.cnpuv.embrapa.br/download/Producao.csv",
+        "processamento": "http://vitibrasil.cnpuv.embrapa.br/download/ProcessaViniferas.csv",
+        "comercializacao": "http://vitibrasil.cnpuv.embrapa.br/download/Comercio.csv",
+        "importacao": "http://vitibrasil.cnpuv.embrapa.br/download/ImpVinhos.csv",
+        "exportacao": "http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv"
+    }
+}

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Query, Depends, HTTPException
 from app.services import get_data, get_csv_data
 from app.auth import oauth2_scheme, verify_token
+from app.services import fetch_and_save_producao, fetch_and_save_exportacao
 
 router = APIRouter()
 
@@ -9,7 +10,8 @@ router = APIRouter()
 def producao(year: int = Query(None, ge=1970, le=2024), token: str = Depends(oauth2_scheme)):
     # Verifica o token JWT
     verify_token(token)
-    return get_data("producao", year)
+    # return get_data("producao", year)
+    return fetch_and_save_producao(year)
 
 @router.get("/processamento")
 def processamento(year: int = Query(None, ge=1970, le=2024), token: str = Depends(oauth2_scheme)):
@@ -33,7 +35,8 @@ def importacao(year: int = Query(None, ge=1970, le=2024), token: str = Depends(o
 def exportacao(year: int = Query(None, ge=1970, le=2024), token: str = Depends(oauth2_scheme)):
     # Verifica o token JWT
     verify_token(token)
-    return get_data("exportacao", year)
+    return fetch_and_save_exportacao(year)
+
 
 # Rotas para os arquivos CSV, também protegidas por autenticação JWT
 @router.get("/csv/producao")
