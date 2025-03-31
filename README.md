@@ -209,6 +209,21 @@ A documentação da API está disponível no formato OpenAPI. Você pode visuali
 ## **Monitoramento**
 - O Railway oferece métricas integradas e logs que podem ser acessados diretamente no painel para monitorar o desempenho da aplicação.
 
+
+## **Aplicação de Previsão com Streamlit**
+Além das APIs, foi desenvolvida uma interface interativa utilizando Streamlit para facilitar a previsão de exportação. A aplicação permite que os usuários:
+
+- Insiram dados para realizar previsões.
+- Recebam os resultados de forma visual e formatada.
+
+### **Como Executar a Aplicação Streamlit**
+1. Certifique-se de que os modelos `modelo_exportacao.pkl` e `encoder_exportacao.pkl` estão no diretório `ml-model/production`.
+2. Execute o comando abaixo para iniciar a aplicação:
+```bash
+   streamlit run app/app.py
+```
+3. Acesse a aplicação no navegador no endereço [http://localhost:8501](http://localhost:8501)
+
 ## Arquitetura
 
 ### 1. Diagrama de Arquitetura de Software
@@ -433,6 +448,48 @@ graph TD;
     A[POST /token] --> B[Auth]
     A[GET /producao] --> C[Routes]
     C --> D[Services]
+```
+
+### 1. Diagrama de Arquitetura de Machine Learning
+
+Este diagrama mostra a visão geral do pipeline de Machine Learning, destacando os principais componentes e suas interações. Ele ilustra como os dados fluem desde a entrada do usuário até a geração de previsões.
+
+```mermaid
+graph TD
+A[Usuário] -->|Insere Ano e País| B[API FastAPI ou Streamlit App]
+B -->|Codifica Dados| C[Encoder]
+C -->|Envia Dados Codificados| D[Modelo de Machine Learning]
+D -->|Retorna Previsão| B
+B -->|Exibe Resultados| A
+
+subgraph Pipeline_ML [Pipeline de Machine Learning]
+style Pipeline_ML fill:#2F4F4F,stroke:#333,stroke-width:1px,color:#B0E0E6
+E[Pré-processamento] --> F[Treinamento]
+F --> G[Armazenamento de Modelos]
+G --> H[Carregamento de Modelos]
+H --> D
+end
+
+subgraph Banco_de_Dados [Banco de Dados]
+style Banco_de_Dados fill:#2F4F4F,stroke:#333,stroke-width:1px,color:#B0E0E6
+I[Dados Históricos de Exportação]
+J[Dados de Treinamento]
+end
+
+E -->|Consulta| I
+F -->|Usa Dados| J
+
+```
+
+### 10. Diagrama de Fluxo de Previsão
+
+```mermaid
+graph TD;
+    A[Usuário] -->|Insere Ano e País| B[API ou Streamlit App]
+    B -->|Codifica Dados| C[Encoder]
+    C -->|Envia Dados Codificados| D[Modelo de Machine Learning]
+    D -->|Retorna Previsão| B
+    B -->|Exibe Resultados| A
 ```
 
 ## Licença
