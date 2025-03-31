@@ -450,13 +450,13 @@ graph TD;
     C --> D[Services]
 ```
 
-### 1. Diagrama de Arquitetura de Machine Learning
+### 10. Diagrama de Arquitetura de Machine Learning
 
 Este diagrama mostra a visão geral do pipeline de Machine Learning, destacando os principais componentes e suas interações. Ele ilustra como os dados fluem desde a entrada do usuário até a geração de previsões.
 
 ```mermaid
 graph TD
-A[Usuário] -->|Insere Ano e País| B[API FastAPI ou Streamlit App]
+A[Usuário] -->|Insere Ano e País| B[Streamlit App]
 B -->|Codifica Dados| C[Encoder]
 C -->|Envia Dados Codificados| D[Modelo de Machine Learning]
 D -->|Retorna Previsão| B
