@@ -485,7 +485,7 @@ F -->|Usa Dados| J
 
 ```mermaid
 graph TD;
-    A[Usuário] -->|Insere Ano e País| B[API ou Streamlit App]
+    A[Usuário] -->|Insere Ano e País| B[Streamlit App]
     B -->|Codifica Dados| C[Encoder]
     C -->|Envia Dados Codificados| D[Modelo de Machine Learning]
     D -->|Retorna Previsão| B
