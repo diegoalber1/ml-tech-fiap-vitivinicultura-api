@@ -21,7 +21,8 @@ Esta API oferece acesso a dados abrangentes sobre a produção, processamento, c
 - Consultar dados históricos e em tempo real sobre vitivinicultura.
 - Monitorar a produção de vinhos no Brasil.
 - Acessar informações detalhadas sobre a comercialização e exportação de vinhos.
-- Utilizar dados para alimentar modelos de previsão de demanda de vinhos (previsto para a fase 2 do projeto).
+- Utilizar dados para alimentar modelos de previsão de exportacao de vinhos 
+- Modelo preditivo para prever exportacao de vinho (TECH CHALLENGE - FASE 3)
 
 ---
 
