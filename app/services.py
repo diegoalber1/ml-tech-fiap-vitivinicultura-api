@@ -6,12 +6,19 @@ import logging
 from bs4 import BeautifulSoup
 from app.database import get_db_connection
 import logging
+import pandas as pd
+import joblib
+import os
 
 # Configuração de logging
 logging.basicConfig(level=logging.INFO)
 
 # Caminho do arquivo de configuração
 CONFIG_PATH = 'data/config.json'
+
+# Caminhos para os arquivos do modelo e encoder
+MODEL_PATH = os.path.join("ml-model", "production", "modelo_exportacao.pkl")
+ENCODER_PATH = os.path.join("ml-model", "production", "encoder_exportacao.pkl")
 
 # Carrega a configuração a partir de um arquivo JSON
 def load_config(config_path=CONFIG_PATH):
@@ -276,3 +283,85 @@ def fetch_and_save_exportacao(year):
     data = get_data("exportacao", year)
     saved_data = save_exportacao_data(data, year)
     return data
+
+
+def exportacao_predict_wrapper(year: int, country: str):
+    """
+    Função para prever a quantidade de litros de exportação com base no ano e no país informado.
+
+    Args:
+        year (int): Ano para a previsão (ex: 2025).
+        country (str): País para a previsão (ex: "Brasil").
+
+    Returns:
+        dict: Resultado da previsão contendo o ano, país, quantidade prevista e valor previsto.
+    """
+    try:
+        # Carregar o modelo e o encoder
+        model = joblib.load(MODEL_PATH)
+        encoder = joblib.load(ENCODER_PATH)
+
+        # Codificar o país
+        country_encoded = encoder.transform([[country]])
+
+        # Criar o DataFrame de entrada para o modelo
+        input_data = pd.DataFrame(
+            [list([year]) + list(country_encoded[0])],
+            columns=['ano'] + encoder.get_feature_names_out(['pais']).tolist()
+        )
+
+        # Fazer a previsão
+        prediction = model.predict(input_data)[0]
+        quantidade_prevista, valor_previsto = prediction
+
+        # Garantir que valores negativos sejam exibidos como zero
+        quantidade_prevista = max(quantidade_prevista, 0)
+        valor_previsto = max(valor_previsto, 0)
+
+        # Retornar os resultados formatados
+        return {
+            "ano": year,
+            "pais": country,
+            "quantidade_prevista": round(quantidade_prevista, 2),
+            "valor_previsto": round(valor_previsto, 2)
+        }
+
+    except Exception as e:
+        raise RuntimeError(f"Erro ao realizar a previsão: {e}")
+    
+def get_jwt_token():
+    """
+    Obtém o token JWT para autenticação.
+    """
+    url = f"{BASE_URL}/token"
+    payload = {
+        "username": os.getenv("USERNAME"),
+        "password": os.getenv("PASSWORD")
+    }
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+    response = requests.post(url, data=payload, headers=headers)
+    if response.status_code == 200:
+        return response.json().get("access_token")
+    else:
+        raise Exception(f"Erro ao obter o token: {response.status_code} - {response.text}")
+
+def call_exportacao_predict(year, country):
+    """
+    Faz a chamada ao endpoint /exportacao/predict.
+    """
+    token = get_jwt_token()
+    url = f"{os.getenv("BASE_URL_APP")}/exportacao/predict"
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+    params = {
+        "year": year,
+        "country": country
+    }
+    response = requests.get(url, headers=headers, params=params)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        raise Exception(f"Erro ao chamar o endpoint: {response.status_code} - {response.text}")
