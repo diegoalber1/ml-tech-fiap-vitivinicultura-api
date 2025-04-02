@@ -285,12 +285,11 @@ def fetch_and_save_exportacao(year):
     return data
 
 
-def exportacao_predict_wrapper(year: int, country: str):
+def exportacao_predict_wrapper(country: str):
     """
-    Função para prever a quantidade de litros de exportação com base no ano e no país informado.
+    Função para prever a quantidade de litros de exportação com base no país informado.
 
     Args:
-        year (int): Ano para a previsão (ex: 2025).
         country (str): País para a previsão (ex: "Brasil").
 
     Returns:
@@ -299,28 +298,16 @@ def exportacao_predict_wrapper(year: int, country: str):
     try:
         # Carregar o modelo e o encoder
         model = joblib.load(MODEL_PATH)
-        encoder = joblib.load(ENCODER_PATH)
 
-        # Codificar o país
-        country_encoded = encoder.transform([[country]])
-
-        # Criar o DataFrame de entrada para o modelo
-        input_data = pd.DataFrame(
-            [list([year]) + list(country_encoded[0])],
-            columns=['ano'] + encoder.get_feature_names_out(['pais']).tolist()
-        )
+        input_data = pd.DataFrame({'pais': [country]})
 
         # Fazer a previsão
-        prediction = model.predict(input_data)[0]
-        quantidade_prevista, valor_previsto = prediction
-
-        # Garantir que valores negativos sejam exibidos como zero
-        quantidade_prevista = max(quantidade_prevista, 0)
-        valor_previsto = max(valor_previsto, 0)
+        predicao = model.predict(input_data)
+        quantidade_prevista = max(predicao[0][0], 0)
+        valor_previsto = max(predicao[0][1], 0)
 
         # Retornar os resultados formatados
         return {
-            "ano": year,
             "pais": country,
             "quantidade_prevista": round(quantidade_prevista, 2),
             "valor_previsto": round(valor_previsto, 2)

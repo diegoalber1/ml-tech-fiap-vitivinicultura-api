@@ -41,7 +41,6 @@ def exportacao(year: int = Query(None, ge=1970, le=2024), token: str = Depends(o
 
 @router.get("/exportacao/predict")
 def exportacao_predict(
-    year: int = Query(..., ge=2024, le=2100),  # O parâmetro `year` agora é obrigatório
     country: str = Query(...),  # O parâmetro `country` também é obrigatório
     token: str = Depends(oauth2_scheme)  # Token JWT para autenticação
 ):
@@ -49,7 +48,7 @@ def exportacao_predict(
     verify_token(token)
     
     # Chama a lógica de previsão
-    return exportacao_predict_wrapper(year, country)
+    return exportacao_predict_wrapper(country)
 
 # Rotas para os arquivos CSV, também protegidas por autenticação JWT
 @router.get("/csv/producao")
