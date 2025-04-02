@@ -457,7 +457,7 @@ Este diagrama mostra a visão geral do pipeline de Machine Learning, destacando 
  
 ```mermaid
 graph TD
-A[Usuário] -->|Insere Ano e País| B[Streamlit App]
+A[Usuário] -->|Insere País| B[Streamlit App]
 B -->|Codifica Dados| C[Encoder]
 C -->|Envia Dados Codificados| D[Modelo de Machine Learning]
 D -->|Retorna Previsão| B
@@ -486,7 +486,7 @@ F -->|Usa Dados| J
 
 ```mermaid
 graph TD;
-    A[Usuário] -->|Insere Ano e País| B[Streamlit App]
+    A[Usuário] -->|Insere País| B[Streamlit App]
     B -->|Codifica Dados| C[Encoder]
     C -->|Envia Dados Codificados| D[Modelo de Machine Learning]
     D -->|Retorna Previsão| B
