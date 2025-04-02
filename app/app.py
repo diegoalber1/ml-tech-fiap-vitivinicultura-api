@@ -1,6 +1,7 @@
 import streamlit as st
 import os
 import pandas as pd
+import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -57,9 +58,56 @@ def plot_world_map(csv_path):
         for col in required_columns:
             if col not in df.columns:
                 raise ValueError(f"A coluna '{col}' não foi encontrada no arquivo CSV.")
+        
+        # Traduzir os nomes dos países
         df["pais_ingles"] = df["pais"].map(country_translation)
         if df["pais_ingles"].isnull().any():
             st.warning("Atenção: Alguns países não foram traduzidos. Verifique o dicionário de tradução.")
+            
+            # Filtrar os países não traduzidos
+            paises_nao_traduzidos = df[df["pais_ingles"].isnull()]["pais"].unique()
+            
+            # Exibir os países não traduzidos
+            st.write("Países não traduzidos:")
+            for pais in paises_nao_traduzidos:
+                st.write(f"- {pais}")
+        # Aplicar transformação logarítmica para destacar valores menores
+        df["quantidade_litros_log"] = df["quantidade_litros"].apply(lambda x: max(x, 1)).apply(np.log)
+
+        # Ajustar a escala de cores e o tamanho do mapa
+        fig = px.choropleth(
+            df,
+            locations="pais_ingles",
+            locationmode="country names",
+            color="quantidade_litros_log",  # Usar a coluna transformada
+            hover_name="pais",
+            hover_data={"valor_usd": True, "quantidade_litros": True},
+            color_continuous_scale=px.colors.sequential.Viridis,  # Escala de cores
+            range_color=(df["quantidade_litros_log"].min(), df["quantidade_litros_log"].max()),  # Intervalo ajustado
+            title="Distribuição de Exportação por País (Escala Logarítmica)",
+            width=1200,  # Largura do mapa
+            height=800   # Altura do mapa
+        )
+        
+        # Exibir o gráfico no Streamlit
+        st.plotly_chart(fig)
+    except Exception as e:
+        st.error(f"Erro ao gerar o mapa-múndi: {e}")
+
+def plot_world_map_old(csv_path):
+    try:
+        df = pd.read_csv(csv_path)
+        required_columns = ['pais', 'quantidade_litros', 'valor_usd']
+        for col in required_columns:
+            if col not in df.columns:
+                raise ValueError(f"A coluna '{col}' não foi encontrada no arquivo CSV.")
+        
+        # Traduzir os nomes dos países
+        df["pais_ingles"] = df["pais"].map(country_translation)
+        if df["pais_ingles"].isnull().any():
+            st.warning("Atenção: Alguns países não foram traduzidos. Verifique o dicionário de tradução.")
+        
+        # Ajustar a escala de cores e o tamanho do mapa
         fig = px.choropleth(
             df,
             locations="pais_ingles",
@@ -67,13 +115,59 @@ def plot_world_map(csv_path):
             color="quantidade_litros",
             hover_name="pais",
             hover_data={"valor_usd": True, "quantidade_litros": True},
-            color_continuous_scale=px.colors.sequential.Plasma,
-            title="Distribuição de Exportação por País"
+            color_continuous_scale=px.colors.sequential.Viridis,  # Escala de cores
+            range_color=(df["quantidade_litros"].min(), df["quantidade_litros"].max()),  # Intervalo de cores
+            title="Distribuição de Exportação por País",
+            width=1200,  # Largura do mapa
+            height=800   # Altura do mapa
         )
+        
+        # Exibir o gráfico no Streamlit
         st.plotly_chart(fig)
     except Exception as e:
         st.error(f"Erro ao gerar o mapa-múndi: {e}")
 
+def plot_scatter_avg_value_vs_quantity(csv_path):
+    try:
+        df = pd.read_csv(csv_path)
+        if 'valor_medio_litro' not in df.columns or 'quantidade_litros' not in df.columns:
+            raise ValueError("As colunas 'valor_medio_litro' e 'quantidade_litros' são necessárias no arquivo CSV.")
+        
+        fig = px.scatter(df, x='quantidade_litros', y='valor_medio_litro', 
+                         title="Relação entre Valor Médio por Litro e Quantidade Exportada",
+                         labels={'quantidade_litros': 'Quantidade de Litros', 'valor_medio_litro': 'Valor Médio por Litro (USD)'},
+                         hover_data=['pais', 'ano'])
+        st.plotly_chart(fig)
+    except Exception as e:
+        st.error(f"Erro ao gerar o gráfico de dispersão: {e}")
+
+def plot_linear_trend(csv_path):
+     try:
+         df = pd.read_csv(csv_path)
+         if 'ano' not in df.columns or 'tendencia_quantidade' not in df.columns or 'tendencia_valor' not in df.columns:
+             raise ValueError("As colunas 'ano', 'tendencia_quantidade' e 'tendencia_valor' são necessárias no arquivo CSV.")
+         
+         trend_data = df.groupby('ano')[['tendencia_quantidade', 'tendencia_valor']].mean().reset_index()
+         fig = px.line(trend_data, x='ano', y=['tendencia_quantidade', 'tendencia_valor'], 
+                       title="Tendência Linear de Quantidade e Valor Exportado",
+                       labels={'ano': 'Ano', 'value': 'Tendência', 'variable': 'Métrica'})
+         st.plotly_chart(fig)
+     except Exception as e:
+         st.error(f"Erro ao gerar o gráfico de tendência linear: {e}")
+
+def plot_avg_value_per_liter(csv_path):
+    try:
+        df = pd.read_csv(csv_path)
+        if 'ano' not in df.columns or 'valor_medio_litro' not in df.columns:
+            raise ValueError("As colunas 'ano' e 'valor_medio_litro' são necessárias no arquivo CSV.")
+        
+        avg_value = df.groupby('ano')['valor_medio_litro'].mean().reset_index()
+        fig = px.line(avg_value, x='ano', y='valor_medio_litro', 
+                      title="Evolução do Valor Médio por Litro ao Longo do Tempo",
+                      labels={'ano': 'Ano', 'valor_medio_litro': 'Valor Médio por Litro (USD)'})
+        st.plotly_chart(fig)
+    except Exception as e:
+        st.error(f"Erro ao gerar o gráfico de valor médio por litro: {e}")
 
 def plot_time_series(csv_path):
     try:
@@ -142,6 +236,20 @@ def plot_exports_by_region(csv_path):
         st.plotly_chart(fig)
     except Exception as e:
         st.error(f"Erro ao gerar o gráfico de exportações por região: {e}")
+def plot_annual_variation(csv_path):
+    try:
+        df = pd.read_csv(csv_path)
+        if 'ano' not in df.columns or 'quantidade_litros_var' not in df.columns or 'valor_usd_var' not in df.columns:
+            raise ValueError("As colunas 'ano', 'quantidade_litros_var' e 'valor_usd_var' são necessárias no arquivo CSV.")
+        
+        variation = df.groupby('ano')[['quantidade_litros_var', 'valor_usd_var']].sum().reset_index()
+        fig = px.bar(variation, x='ano', y=['quantidade_litros_var', 'valor_usd_var'], 
+                     title="Variação Anual de Quantidade e Valor Exportado",
+                     labels={'ano': 'Ano', 'value': 'Variação', 'variable': 'Métrica'},
+                     barmode='group')
+        st.plotly_chart(fig)
+    except Exception as e:
+        st.error(f"Erro ao gerar o gráfico de variação anual: {e}")
 
 # Dicionário para traduzir os nomes dos países
 country_translation = {
@@ -220,7 +328,53 @@ country_translation = {
     "Turquia": "Turkey",
     "Uruguai": "Uruguay",
     "Venezuela": "Venezuela",
-    "Vietnã": "Vietnam"
+    "Vietnã": "Vietnam",
+    "Cingapura": "Singapore",
+    "Estônia": "Estonia",
+    "Finlândia": "Finland",
+    "Polônia": "Poland",
+    "Total": "Total",  # Não é um país, mas mantido como está
+    "Antilhas Holandesas": "Netherlands Antilles",
+    "Aruba": "Aruba",
+    "Afeganistão": "Afghanistan",
+    "Cabo Verde": "Cape Verde",
+    "Catar": "Qatar",
+    "Hungria": "Hungary",
+    "Irlanda": "Ireland",
+    "Mauritânia": "Mauritania",
+    "Montenegro": "Montenegro",
+    "Nova Caledônia": "New Caledonia",
+    "Peru": "Peru",
+    "Suazilândia": "Eswatini",  # Nome atualizado
+    "Guine Equatorial": "Equatorial Guinea",
+    "Trinidade Tobago": "Trinidad and Tobago",
+    "África do Sul": "South Africa",
+    "Belice": "Belize",
+    "Benin": "Benin",
+    "Espanha": "Spain",
+    "Camarões": "Cameroon",
+    "Arábia Saudita": "Saudi Arabia",
+    "Bermudas": "Bermuda",
+    "Congo": "Congo",
+    "Indonésia": "Indonesia",
+    "Letônia": "Latvia",
+    "Macau": "Macau",
+    "Malavi": "Malawi",
+    "Martinica": "Martinique",
+    "Palau": "Palau",
+    "Pitcairn": "Pitcairn Islands",
+    "São Cristóvão e Névis": "Saint Kitts and Nevis",
+    "Toquelau": "Tokelau",
+    "Bósnia-Herzegovina": "Bosnia and Herzegovina",
+    "Comores": "Comoros",
+    "Gibraltar": "Gibraltar",
+    "Índia": "India",
+    "Jordânia": "Jordan",
+    "Tuvalu": "Tuvalu",
+    "Vanuatu": "Vanuatu",
+    "Malásia": "Malaysia",
+    "São Tomé e Príncipe": "Sao Tome and Principe",
+    "Guine Bissau": "Guinea-Bissau"
 }
 
 # Configuração inicial
@@ -251,7 +405,7 @@ elif menu == "Gráficos":
     
     st.title("Gráficos de Análise")
     
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
 
     with col1:
         st.subheader("Tendência Temporal")
@@ -261,9 +415,13 @@ elif menu == "Gráficos":
         st.subheader("Exportações por Região")
         plot_exports_by_region(csv_path)
 
+    col3, col4 = st.columns(2)
     with col3:
-        st.subheader("Correlação entre Valor e Quantidade")
-        plot_correlation(csv_path)
+        st.subheader("Variação Anual (Quantidade e Valor)")
+        plot_annual_variation(csv_path)
+    with col4:
+        st.subheader("Dispersão (Valor Médio por Litro vs. Quantidade)")
+        plot_scatter_avg_value_vs_quantity(csv_path)
 
 # Seção: Histórico
 elif menu == "Histórico":
