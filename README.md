@@ -1,5 +1,7 @@
 # ml-tech-fiap-vitivinicultura-api [tech challenge]
-Esta API oferece acesso a dados abrangentes sobre a produção, processamento, comercialização, importação e exportação de vinhos. Este repositório foi desenvolvido no âmbito do Tech Challenge da POS-Tech FIAP em Machine Learning Engineering, tendo objetivos estritamente acadêmicos.
+Esta API fornece acesso a dados detalhados sobre a produção, processamento, comercialização, importação e exportação de vinhos. Além disso, oferece uma aplicação para visualização interativa de dados, auxiliando na tomada de decisões e no entendimento do comportamento de exportação. A aplicação também realiza previsões sobre o preço e a quantidade de vinhos exportados por país.
+
+Este repositório foi desenvolvido como parte do **Tech Challenge da Pós-Graduação em Engenharia de Machine Learning da FIAP**, com objetivos acadêmicos e educacionais.
 
 ## **Índice**
 - [Funcionalidades](#funcionalidades)
@@ -12,6 +14,7 @@ Esta API oferece acesso a dados abrangentes sobre a produção, processamento, c
 - [Endpoints](#endpoints)
 - [Deploy](#deploy)
 - [Monitoramento](#monitoramento)
+- [Previsão de Exportação de Vinhos por País](#predição*)
 - [Arquitetura](#Arquitetura)
 - [Licença](#licença)
 
@@ -211,14 +214,127 @@ A documentação da API está disponível no formato OpenAPI. Você pode visuali
 - O Railway oferece métricas integradas e logs que podem ser acessados diretamente no painel para monitorar o desempenho da aplicação.
 
 
-## **Aplicação de Previsão com Streamlit**
-Além das APIs, foi desenvolvida uma interface interativa utilizando Streamlit para facilitar a previsão de exportação. A aplicação permite que os usuários:
+## **Predição**
 
-- Insiram dados para realizar previsões.
-- Recebam os resultados de forma visual e formatada.
+Esta aplicação tem como objetivo prever os valores e a quantidade de exportação de vinhos por país utilizando técnicas de Machine Learning. O modelo foi desenvolvido com base em dados históricos de exportação de vinhos, sendo avaliado por métricas como **Erro Quadrático Médio (MSE)**, **R²** e **Erro Absoluto Percentual Médio (MAPE)**.
 
-### **Como Executar a Aplicação Streamlit**
-1. Certifique-se de que os modelos `modelo_exportacao.pkl` e `encoder_exportacao.pkl` estão no diretório `ml-model/production`.
+### Tecnologias Utilizadas
+
+- **Python 3.x**
+- **Bibliotecas**:
+  - Pandas
+  - NumPy
+  - Matplotlib
+  - Seaborn
+  - scikit-learn
+  - SQLAlchemy
+  - joblib
+- **Banco de Dados**: PostgreSQL
+
+### Etapas do Projeto
+
+#### 1. **Configuração do Ambiente**
+
+O ambiente foi configurado com o uso de bibliotecas essenciais para a manipulação de dados (Pandas, NumPy), visualização (Matplotlib, Seaborn), e construção do modelo de Machine Learning (scikit-learn). A conexão com o banco de dados foi feita utilizando SQLAlchemy, com credenciais armazenadas como variáveis de ambiente.
+
+#### 2. **Carregamento, Preparação dos Dados e Feature Engineering**
+
+Os dados foram extraídos de um banco de dados PostgreSQL contendo informações sobre exportação de vinhos por país. Após o carregamento, os dados foram limpos, removendo ou corrigindo valores ausentes, inválidos ou inconsistentes. Durante essa etapa, também foram realizadas transformações nas variáveis, como a criação de novos atributos baseados em dados existentes (exemplo: média do valor por litro e variação anual).
+
+#### 3. **Análise Exploratória de Dados (EDA)**
+
+Foi realizada uma análise exploratória para entender a distribuição dos dados e suas correlações. A partir disso, gráficos e estatísticas descritivas foram gerados para identificar padrões e possíveis outliers. A análise incluiu a visualização das distribuições das variáveis e a análise das correlações entre as variáveis numéricas, como a quantidade de vinhos exportados e o valor total da exportação.
+
+#### 4. **Divisão dos Dados**
+
+Os dados foram divididos em duas partes: variáveis de entrada (características, como o país e ano da exportação) e variáveis de saída (quantidade de vinhos e valor total em USD). Em seguida, o conjunto de dados foi separado em dados de treinamento e dados de teste, garantindo que o modelo fosse avaliado de forma justa.
+
+#### 5. **Treinamento do Modelo**
+
+Para a construção do modelo de previsão, foi escolhido o algoritmo **Random Forest Regressor**, uma técnica baseada em árvores de decisão que é robusta e eficiente para problemas com múltiplas variáveis. O modelo foi treinado com os dados de entrada, e um pipeline foi utilizado para garantir que a codificação das variáveis categóricas e o pré-processamento dos dados fossem realizados de forma correta.
+
+#### 6. **Avaliação do Modelo**
+
+O modelo foi avaliado utilizando três métricas principais:
+- **MSE (Erro Quadrático Médio)**: Mede a média dos quadrados das diferenças entre as previsões e os valores reais. Quanto menor, melhor.
+- **R² (Coeficiente de Determinação)**: Indica a proporção da variância dos dados que o modelo consegue explicar. Quanto mais próximo de 1, melhor o modelo.
+- **MAPE (Erro Absoluto Percentual Médio)**: Mede a média dos erros percentuais absolutos entre as previsões e os valores reais. Quanto menor, melhor.
+
+Essas métricas ajudaram a determinar a eficácia do modelo e seu desempenho em prever os valores de exportação de vinhos.
+
+#### 7. **Persistência do Modelo**
+
+Após o treinamento, o modelo foi salvo em um arquivo para que possa ser reutilizado sem a necessidade de re-treinamento. Esse arquivo pode ser carregado posteriormente para fazer previsões em tempo real ou ser implementado em um ambiente de produção. Nesse cenario, o artefato treinamento é utilizado por uma API (exportacao/predict) e também em uma aplicação streamlit para realizar as predições
+
+### Justificativa da Escolha do Algoritmo
+
+A escolha do **Random Forest Regressor** foi baseada em várias considerações:
+
+- **Capacidade de lidar com grandes volumes de dados**: O Random Forest pode lidar eficientemente com grandes conjuntos de dados, o que é crucial dado o tamanho potencial dos dados de exportação.
+- **Modelagem de relações não lineares**: O algoritmo é capaz de capturar interações complexas entre as variáveis, o que é importante para a previsão de valores de exportação, onde as relações podem não ser lineares.
+- **Robustez contra overfitting**: Como o modelo utiliza múltiplas árvores de decisão e realiza uma média entre elas, ele é menos propenso a overfitting (ajuste excessivo aos dados de treinamento).
+- **Facilidade de interpretação**: O Random Forest fornece informações úteis sobre a importância das variáveis, o que permite entender quais fatores têm maior impacto nas previsões.
+
+
+
+### **Aplicação de Previsão com Streamlit**
+
+
+Esta aplicação tem como objetivo prever as exportações de vinhos com base em dados históricos. Utilizando um modelo de machine learning, o app oferece diversas funcionalidades para visualização de dados e análise preditiva.
+
+#### Funcionalidades
+
+O aplicativo é dividido em quatro menus principais:
+
+1. **Mapa-Global**: Visualiza a distribuição das exportações por país através de um mapa interativo.
+2. **Gráficos**: Exibe diferentes gráficos relacionados às tendências de exportação, correlação entre valor e quantidade, e exportações por região.
+3. **Histórico**: Permite consultar o histórico de exportação de um país específico.
+4. **Previsão**: Realiza previsões sobre a quantidade e o valor das exportações de um país.
+
+
+#### Seção 1: Mapa-Global
+
+Esta seção apresenta um **mapa interativo** de distribuição de exportações por país. O gráfico destaca a quantidade exportada, com a utilização de uma escala logarítmica para melhor visualização.
+
+![Mapa Global](img/app_1.png)
+
+
+
+#### Seção 2: Gráficos
+
+1. **Tendência Temporal de Exportação:**: Mostra a tendência da quantidade de exportações ao longo do tempo (anos).
+2. **Exportações por Região**: Apresenta a quantidade de exportações distribuídas por região do mundo.
+3. **Variação Anual (Quantidade e Valor)**: Exibe a variação anual da quantidade e do valor das exportações.
+4. **Dispersão (Valor Médio por Litro vs. Quantidade)**: Mostra a relação entre o valor médio por litro e a quantidade exportada.
+
+![Gráficos](img/app_2.png)
+
+
+#### Seção 3: Histórico
+
+Na seção de histórico, é possível consultar o histórico de exportações de vinhos para um país específico. A visualização é feita por meio de uma tabela interativa.
+
+![Histórico](img/app_2.png)
+
+
+#### Seção 4: Previsão
+
+A seção de **previsão** utiliza um modelo de machine learning treinado para prever a quantidade de litros e o valor em dólares das exportações para um país selecionado.
+
+![Previsão](img/app_2.png)
+
+
+#### Tecnologias Utilizadas
+
+- **Streamlit**: Framework para criar apps web interativos.
+- **Plotly**: Biblioteca para gráficos interativos.
+- **Seaborn**: Para visualização estatística e gráficos avançados.
+- **Scikit-learn**: Biblioteca para machine learning, utilizada para o modelo preditivo.
+- **Pandas e Numpy**: Para manipulação e análise de dados.
+
+
+#### **Como Executar a Aplicação Streamlit**
+1. Certifique-se de que o modelo `modelo_exportacao.pkl` está no diretório `ml-model/production`.
 2. Execute o comando abaixo para iniciar a aplicação:
 ```bash
    streamlit run app/app.py
