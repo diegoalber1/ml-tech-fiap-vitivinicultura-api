@@ -14,7 +14,7 @@ Este repositório foi desenvolvido como parte do **Tech Challenge da Pós-Gradua
 - [Endpoints](#endpoints)
 - [Deploy](#deploy)
 - [Monitoramento](#monitoramento)
-- [Previsão de Exportação de Vinhos por País](#predição*)
+- [Predição](#predição*)
 - [Arquitetura](#Arquitetura)
 - [Licença](#licença)
 
@@ -314,14 +314,14 @@ Esta seção apresenta um **mapa interativo** de distribuição de exportações
 
 Na seção de histórico, é possível consultar o histórico de exportações de vinhos para um país específico. A visualização é feita por meio de uma tabela interativa.
 
-![Histórico](img/app_2.png)
+![Histórico](img/app_3.png)
 
 
 #### Seção 4: Previsão
 
 A seção de **previsão** utiliza um modelo de machine learning treinado para prever a quantidade de litros e o valor em dólares das exportações para um país selecionado.
 
-![Previsão](img/app_2.png)
+![Previsão](img/app_4.png)
 
 
 #### Tecnologias Utilizadas
